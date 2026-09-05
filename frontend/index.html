@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GrowthPilot AI</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        /* Header */
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .brand h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .brand p {
+            color: #6b7280;
+        }
+
+        .status {
+            background: #e8f7ee;
+            color: #16834b;
+            padding: 9px 14px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* KPI */
+
+        .kpis {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 22px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.05);
+        }
+
+        .kpi-label {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .kpi-value {
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        /* Grid */
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            margin-bottom: 22px;
+        }
+
+        .card h2 {
+            font-size: 18px;
+            margin-bottom: 18px;
+        }
+
+        /* AI Opportunity */
+
+        .opportunity {
+            border-left: 5px solid #7c3aed;
+        }
+
+        .opportunity-main {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .arrow {
+            color: #7c3aed;
+            margin: 0 8px;
+        }
+
+        .meta {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 12px 0;
+        }
+
+        .tag {
+            padding: 6px 10px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            font-size: 13px;
+        }
+
+        .high {
+            background: #fee2e2;
+            color: #b91c1c;
+            font-weight: bold;
+        }
+
+        .reason {
+            color: #596273;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* Recommendation */
+
+        .recommendation {
+            border-left: 5px solid #2563eb;
+        }
+
+        .offer {
+            background: #eff6ff;
+            border-radius: 12px;
+            padding: 18px;
+            margin-top: 15px;
+        }
+
+        .offer-price {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #9ca3af;
+            margin-left: 8px;
+        }
+
+        /* Buttons */
+
+        button {
+            border: none;
+            border-radius: 8px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 7px;
+        }
+
+        .primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .success {
+            background: #16a34a;
+            color: white;
+        }
+
+        .danger {
+            background: #dc2626;
+            color: white;
+        }
+
+        .secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        /* Campaign Table */
+
+        .campaign-card {
+            margin-bottom: 22px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 15px 10px;
+            border-bottom: 1px solid #edf0f4;
+            font-size: 14px;
+        }
+
+        th {
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .badge {
+            padding: 6px 9px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .approved {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .executed {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .rejected {
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        /* Measurement */
+
+        .decision {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 18px;
+        }
+
+        .metric {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .metric span {
+            display: block;
+            color: #6b7280;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .metric strong {
+            font-size: 20px;
+        }
+
+        /* Footer */
+
+        .footer {
+            text-align: center;
+            color: #8a94a6;
+            font-size: 13px;
+            padding: 20px;
+        }
+
+        .loading {
+            color: #6b7280;
+        }
+
+        /* Responsive */
+
+        @media(max-width: 1000px) {
+            .kpis {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+
+            .kpis {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+
+        <div class="brand">
+            <h1>🚀 GrowthPilot AI</h1>
+            <p>AI-powered merchant growth & revenue optimization</p>
+        </div>
+
+        <div class="status">
+            ● AI SYSTEM ONLINE
+        </div>
+
+    </header>
+
+
+    <!-- KPI SECTION -->
+
+    <section class="kpis">
+
+        <div class="card">
+            <div class="kpi-label">Incremental Revenue</div>
+            <div class="kpi-value" id="revenue">₹0</div>
+        </div>
+
+        <div class="card">
+            <div class="kpi-label">Average ROI</div>
+            <div class="kpi-value" id="roi">0%</div>
+        </div>
+
+        <div class="card">
+            <div class="kpi-label">Customers</div>
+            <div class="kpi-value" id="customers">0</div>
+        </div>
+
+        <div class="card">
+            <div class="kpi-label">Products</div>
+            <div class="kpi-value" id="products">0</div>
+        </div>
+
+        <div class="card">
+            <div class="kpi-label">Campaigns</div>
+            <div class="kpi-value" id="campaigns">0</div>
+        </div>
+
+    </section>
+
+
+    <!-- AI INSIGHTS -->
+
+    <section class="grid">
+
+        <div class="card opportunity">
+
+            <h2>🧠 AI Growth Opportunity</h2>
+
+            <div id="opportunity">
+                <div class="loading">
+                    Analyzing merchant data...
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="card recommendation">
+
+            <h2>🎯 AI Recommendation</h2>
+
+            <div id="recommendation">
+                <div class="loading">
+                    Generating recommendation...
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CAMPAIGNS -->
+
+    <section class="card campaign-card">
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:18px;
+        ">
+
+            <h2>📢 Growth Campaigns</h2>
+
+            <button class="primary" onclick="createCampaign()">
+                + Create AI Campaign
+            </button>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Campaign</th>
+                        <th>Target</th>
+                        <th>Expected Revenue</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="campaignTable">
+
+                    <tr>
+                        <td colspan="6" class="loading">
+                            Loading campaigns...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- MEASUREMENT -->
+
+    <section class="card">
+
+        <h2>📊 AI Measurement & Decision</h2>
+
+        <div id="analysis">
+
+            <div class="loading">
+                Waiting for executed campaign...
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="footer">
+
+        GrowthPilot AI • Agentic Commerce Growth System •
+        Synthetic demo data
+
+    </div>
+
+</div>
+
+
+<script>
+
+async function api(url, options = {}) {
+
+    try {
+
+        const response = await fetch(url, options);
+
+        if (!response.ok) {
+            throw new Error("API request failed");
+        }
+
+        return await response.json();
+
+    } catch (error) {
+
+        console.error(error);
+
+        return null;
+    }
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+async function loadDashboard() {
+
+    const data = await api("/api/dashboard");
+
+    if (!data) return;
+
+    document.getElementById("revenue").innerText =
+        "₹" + Number(data.incremental_revenue).toLocaleString(
+            "en-IN",
+            {
+                maximumFractionDigits: 2
+            }
+        );
+
+    document.getElementById("roi").innerText =
+        Number(data.average_roi).toFixed(2) + "%";
+
+    document.getElementById("customers").innerText =
+        data.total_customers;
+
+    document.getElementById("products").innerText =
+        data.total_products;
+
+    document.getElementById("campaigns").innerText =
+        data.total_campaigns;
+}
+
+
+/* =========================
+   OPPORTUNITY
+========================= */
+
+async function loadOpportunity() {
+
+    const data = await api("/api/growth/opportunity");
+
+    const container =
+        document.getElementById("opportunity");
+
+    if (!container) return;
+
+    if (!data) {
+
+        container.innerHTML = `
+            <p class="reason">
+                Unable to load growth opportunity.
+            </p>
+        `;
+
+        return;
+    }
+
+    if (data.status === "OPPORTUNITY_FOUND") {
+
+        const opportunity = data.opportunity;
+
+        container.innerHTML = `
+
+            <div class="opportunity-main">
+
+                ${opportunity.product_a}
+
+                <span class="arrow">→</span>
+
+                ${opportunity.product_b}
+
+            </div>
+
+            <div class="meta">
+
+                <span class="tag">
+                    👥 ${opportunity.customers} customers
+                </span>
+
+                <span class="tag high">
+                    🔥 ${opportunity.priority}
+                </span>
+
+            </div>
+
+            <p class="reason">
+
+                ${data.reason}
+
+            </p>
+
+            <p style="margin-top:15px;font-weight:bold">
+
+                ⚡ Next Action:
+                ${data.next_action}
+
+            </p>
+
+        `;
+
+    } else {
+
+        container.innerHTML = `
+
+            <p class="reason">
+
+                ${data.message ||
+                "No strong product relationships discovered."}
+
+            </p>
+
+        `;
+
+    }
+}
+
+
+/* =========================
+   RECOMMENDATION
+========================= */
+
+async function loadRecommendation() {
+
+    const data =
+        await api("/api/growth/recommendation");
+
+    const container =
+        document.getElementById("recommendation");
+
+    if (!data ||
+        data.status !== "RECOMMENDATION_CREATED") {
+
+        container.innerHTML =
+            "<p>No recommendation available.</p>";
+
+        return;
+    }
+
+    container.innerHTML = `
+
+        <p>
+
+            Recommend
+            <strong>${data.recommended_product}</strong>
+
+            to customers purchasing
+
+            <strong>${data.target_product}</strong>.
+
+        </p>
+
+        <div class="offer">
+
+            <div>
+                Special Cross-Sell Offer
+            </div>
+
+            <div style="margin-top:8px">
+
+                <span class="offer-price">
+                    ₹${Number(
+                        data.recommended_price
+                    ).toFixed(2)}
+                </span>
+
+                <span class="old-price">
+                    ₹${Number(
+                        data.original_price
+                    ).toFixed(2)}
+                </span>
+
+            </div>
+
+            <div style="margin-top:8px">
+
+                ${data.discount_percent}% OFF
+
+            </div>
+
+        </div>
+
+        <p class="reason" style="margin-top:12px">
+
+            ${data.reason}
+
+        </p>
+
+    `;
+}
+
+
+/* =========================
+   CAMPAIGNS
+========================= */
+
+async function loadCampaigns() {
+
+    const campaigns =
+        await api("/api/campaigns");
+
+    const table =
+        document.getElementById("campaignTable");
+
+    if (!campaigns || campaigns.length === 0) {
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="6">
+                    No campaigns found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    table.innerHTML = "";
+
+    campaigns.forEach(campaign => {
+
+        let statusClass =
+            campaign.status.toLowerCase()
+                .replace("_", "");
+
+        let actions = "";
+
+        if (campaign.status === "PENDING_APPROVAL") {
+
+            actions = `
+
+                <button
+                    class="success"
+                    onclick="approveCampaign(${campaign.id})">
+                    Approve
+                </button>
+
+                <button
+                    class="danger"
+                    onclick="rejectCampaign(${campaign.id})">
+                    Reject
+                </button>
+
+            `;
+
+        }
+
+        else if (campaign.status === "APPROVED") {
+
+            actions = `
+
+                <button
+                    class="primary"
+                    onclick="executeCampaign(${campaign.id})">
+                    Execute
+                </button>
+
+            `;
+
+        }
+
+        else if (campaign.status === "EXECUTED") {
+
+            actions = `
+
+                <button
+                    class="secondary"
+                    onclick="showAnalysis(${Number(campaign.id)}); return false;})">
+                    View Analysis
+                </button>
+
+            `;
+
+        }
+
+        else if (campaign.status === "REJECTED") {
+
+            actions = `
+                <span style="color:#9ca3af">
+                    No action
+                </span>
+            `;
+
+        }
+
+        table.innerHTML += `
+
+            <tr>
+
+                <td>#${campaign.id}</td>
+
+                <td>
+                    <strong>${campaign.name}</strong>
+                </td>
+
+                <td>
+                    ${campaign.target_customers}
+                </td>
+
+                <td>
+                    ₹${Number(
+                        campaign.expected_revenue || 0
+                    ).toLocaleString("en-IN", {
+                        maximumFractionDigits: 2
+                    })}
+                </td>
+
+                <td>
+
+                    <span class="badge ${statusClass}">
+                        ${campaign.status}
+                    </span>
+
+                </td>
+
+                <td>
+                    ${actions}
+                </td>
+
+            </tr>
+
+        `;
+
+    });
+}
+
+
+/* =========================
+   CREATE CAMPAIGN
+========================= */
+
+async function createCampaign() {
+
+    const result =
+        await api("/api/campaign/create", {
+            method: "POST"
+        });
+
+    if (!result) {
+
+        alert("Unable to create campaign.");
+
+        return;
+    }
+
+    alert(
+        "AI campaign created successfully!"
+    );
+
+    await refreshDashboard();
+}
+
+
+/* =========================
+   APPROVE
+========================= */
+
+async function approveCampaign(id) {
+
+    const confirmed =
+        confirm(
+            "Approve this AI-generated campaign?"
+        );
+
+    if (!confirmed) return;
+
+    const result =
+        await api(
+            `/api/campaign/${id}/approve`,
+            {
+                method: "POST"
+            }
+        );
+
+    if (result) {
+
+        alert("Campaign approved.");
+
+        await refreshDashboard();
+
+    }
+
+}
+
+
+/* =========================
+   REJECT
+========================= */
+
+async function rejectCampaign(id) {
+
+    const confirmed =
+        confirm(
+            "Reject this campaign?"
+        );
+
+    if (!confirmed) return;
+
+    const result =
+        await api(
+            `/api/campaign/${id}/reject`,
+            {
+                method: "POST"
+            }
+        );
+
+    if (result) {
+
+        alert("Campaign rejected.");
+
+        await refreshDashboard();
+
+    }
+
+}
+
+
+/* =========================
+   EXECUTE
+========================= */
+
+async function executeCampaign(id) {
+
+    const confirmed =
+        confirm(
+            "Execute this approved campaign?"
+        );
+
+    if (!confirmed) return;
+
+    const result =
+        await api(
+            `/api/campaign/${id}/execute`,
+            {
+                method: "POST"
+            }
+        );
+
+    if (!result) {
+
+        alert(
+            "Campaign execution failed."
+        );
+
+        return;
+    }
+
+    alert(
+        "Campaign executed successfully!"
+    );
+
+    await refreshDashboard();
+
+    await showAnalysis(id);
+}
+
+
+/* =========================
+   ANALYSIS
+========================= */
+async function showAnalysis(id) {
+
+    const container = document.getElementById("analysis");
+
+    if (!container) {
+        console.error("Analysis container not found");
+        return;
+    }
+
+    // Show loading state immediately
+    container.innerHTML = `
+        <div class="loading">
+            🔄 Loading campaign analysis...
+        </div>
+    `;
+
+    // Make the analysis request
+    const data = await api(
+        `/api/campaign/${id}/analysis`
+    );
+
+    console.log("Analysis response:", data);
+
+    if (!data || data.error) {
+
+        container.innerHTML = `
+            <p class="reason">
+                ❌ No measurement result available
+                for campaign #${id}.
+            </p>
+        `;
+
+        return;
+    }
+
+    // Render analysis
+    container.innerHTML = `
+
+        <div class="decision">
+
+            ${data.emoji}
+            ${data.decision}
+
+        </div>
+
+        <p class="reason">
+
+            ${data.reason}
+
+        </p>
+
+        <div class="analysis-grid">
+
+            <div class="metric">
+
+                <span>Conversions</span>
+
+                <strong>
+                    ${data.conversions}
+                </strong>
+
+            </div>
+
+            <div class="metric">
+
+                <span>Incremental Revenue</span>
+
+                <strong>
+                    ₹${Number(
+                        data.incremental_revenue
+                    ).toLocaleString("en-IN", {
+                        maximumFractionDigits: 2
+                    })}
+                </strong>
+
+            </div>
+
+            <div class="metric">
+
+                <span>Campaign Cost</span>
+
+                <strong>
+                    ₹${Number(
+                        data.campaign_cost
+                    ).toLocaleString("en-IN", {
+                        maximumFractionDigits: 2
+                    })}
+                </strong>
+
+            </div>
+
+            <div class="metric">
+
+                <span>ROI</span>
+
+                <strong>
+                    ${Number(data.roi).toFixed(2)}%
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div style="
+            margin-top:18px;
+            padding:15px;
+            background:#f8fafc;
+            border-radius:10px;
+        ">
+
+            <strong>
+                🤖 AI Recommendation
+            </strong>
+
+            <p class="reason" style="margin-top:7px">
+
+                ${data.recommendation}
+
+            </p>
+
+        </div>
+
+    `;
+
+    // Automatically move the user to the analysis section
+    container.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
+
+
+
+/* =========================
+   FIND LATEST EXECUTED
+========================= */
+
+async function loadLatestAnalysis() {
+
+    const campaigns =
+        await api("/api/campaigns");
+
+    if (!campaigns) return;
+
+    const executed =
+        campaigns.find(
+            campaign =>
+                campaign.status === "EXECUTED"
+        );
+
+    if (executed) {
+
+        await showAnalysis(
+            executed.id
+        );
+
+    }
+}
+
+
+/* =========================
+   REFRESH
+========================= */
+
+async function refreshDashboard() {
+
+    await loadDashboard();
+
+    await loadOpportunity();
+
+    await loadRecommendation();
+
+    await loadCampaigns();
+
+    await loadLatestAnalysis();
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+refreshDashboard();
+
+</script>
+
+</body>
+</html>
